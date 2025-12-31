@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About James</title>
+    
+    <style>
+        body, html {
+            overflow: auto;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url('https://www.shutterstock.com/image-photo/analyst-manages-system-database-analysis-600nw-2437018947.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: -1;
+        }
+
+        /* Profile in top-left */
+        .profile-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* About page layout - centered content and tighter spacing */
+        .about-wrapper {
+            padding: 80px 20px;
+            box-sizing: border-box;
+            min-height: auto;
+        }
+
+        .about-content {
+            color: white;
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.18);
+            padding: 28px;
+            border-radius: 12px;
+            backdrop-filter: blur(6px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+        }
+
+        .about-title {
+            font-size: 2rem;
+            margin-bottom: 18px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin-bottom: 16px;
+        }
+
+        .about-section h3 {
+            font-size: 1.15rem;
+            margin-top: 14px;
+            margin-bottom: 8px;
+            color: #f0f0f0;
+        }
+
+        .about-list {
+            margin: 0 0 12px 0;
+            padding-left: 18px;
+        }
+
+        .about-list li {
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        /* Navigation */
+        .top-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Profile in top-left -->
+    <div class="profile-container">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ4AAACUCAMAAABVwGAvAAAAZlBMVEX///8AAAD5+fnNzc0JCQnd3d1XV1fm5ub29vZdXV38/PyQkJDU1NTw8PBhYWHt7e1AQECamprDw8MZGRmsrKygoKB1dXVFRUWDg4MQEBBLS0t7e3u7u7tubm4tLS1nZ2c3NzcmJiZirPiXAAAEzUlEQVR4nO2ba5OyIBTHJfKSWpnaTc30+3/JBRWrFQw5+DzMLP8Xu02zQ7+Fw7mas3EM1saxeOqyeBBZPIgsHkQWDyKLB5HFg8jiQWTxILJ4EFk8iCweRBYPIosHkcWD6E/ibeLK17OQfjz33NyjvZ61tONtbi0qYm2racbDCUJFoG05zXgYEWnbO914bkPoIo0LasULD4Quw/oW1IuX0qNN9LiUXlrxEorn6VtPL16cUbydtvUcvXgnZPLuhaXReEfPaDy/RsbYXpBiou4H/U2V3zu8K3k5vI2P/wvP93ZEh2tHhHKq/magJj9fvJ6UqMSgAAw83C7GonvYEaPxcMO4KhjgExJFtOBtux1y0fvVCLHHAG/qH7EaHlG0HfgeysnpmnhOxfbvEpqI5+SM72QknnMZ8FrXSLx9xhyM2vGujDdu310tC1wbL2bWVxmJt2+YczESb/MY8Boj8ZxowNuaiXcyG4/tXmYk3pDhk/rSSLw9S6xuRuL5zO+lRuKdmemZGTXaAU+xL7QyHsuoMiMzFrce8M6K66+KF7Jre1Bdf02844HRmVhr4GSgexhYqfnlkChnlWodtA7e0Xdx3he5tVeqpaHr4WVF0qWgDxxjF9pkWQFvNzReasiproa3c/YsiXqCm3OL8MJJXBdcDZaD7qBd+iV4uCgk8RxWYXjA+dUCvDO6TjZDhOcP9ofKf4S3eaJkeg+Ffg8PeMrRdhne5sYd5Ynd8nPAU81VluERupzz9kzUYN0VtSJjGV5FbiHvD2diLvMu3H9LL56fCKa0M3g+y/UgM0A5vEg0TZnLWMbtUyvS5PH2rajDNId3ZHhI/bkHKTxSMRT8E5pNR1kFji7r4nlC9zqLlzK8VvnpAhm8IBN611m84DXZWBMP34VF/nwpNF4OpJr3yeDRYlXg++fxxg6G8vbJ4JH0aCvwXV/q3HGwVitunwweOaOtYPkveONYSDV0yODdFu3e+7g5YJWuauIniSd68IiD99GCf23feg20SHw4HLzP8dnoW9brjtKbK2iAcfA+t8nNQNsn6/eefNt5xxsGQL8CLOs/Im8aeb8XmjJ4YStMet/xejtrfv8Jq4qmQ9P99zGqVMx9Co3vHa+PERMr8NlMfBI6Tt8bHFJ49Nj4c4l3vK4hdZ9e8dH8ms/jTSWeeJHC62I717Tf8MLu5YFjo2Pm8tE1iGuJPEYuW05FjrXHa+kavelxz2uc2Scxuw1BJRVIJEshat+8nKrH29EPvcx4t5EPlakfOkGce3KPF0jiHTku44VHweOWvhI9UoNbxrdtiuJayz78IFvnptT3CfBq6nRKru8YtX/lflSF5KNB0k2MM9e5YOZLutQumVsLX0a4upLNr+RbQBHP/Cge9Q8B9SrXb0ul0eX5uOULcj95vJA27c6/4hDBK+mNpkmNoJgDaUl/ryL+3/tkiMvOeVHDO8BbtVMt6o7G1D1Hk+jrkqCX5WvQLewtBycSoOrLx7XzI/JeCWqTibW09R2cuvz8mac4jmNcna7E6G4rWF2v5Z154vIf25cHa6IU/ISoWIqDg9CPq6pKY01fahHqT36VSZssHkQWDyKLB5HFg8jiQWTxILJ4EFk8iCweRBYPIosHkcWDyOJBZPEgsngQbX4AhLgtiWDtGvoAAAAASUVORK5CYII=" alt="James Ruben" class="profile-pic">
+        <div class="profile-name">James Ruben</div>
+    </div>
+
+    
+    <!-- Navigation -->
+    <div class="top-links">
+        <a href="index.html">Home</a>
+        <a href="SocialMedia.html">Social Media Platforms</a>
+        
+    </div>
+
+    <!-- Page content -->
+    <div class="about-wrapper">
+        <div class="about-content">
+            <h2 class="about-title">About James</h2>
+
+            <!-- Personal Introduction -->
+            <div class="about-text">
+                <p><strong>Personal Introduction:</strong> I’m James Ruben from Windhoek. I discovered computing early on through simple scripting and small automation tasks, which quickly grew into a deep interest in software development. I’m currently a 2nd-year Computer Science student at NUST focusing on Software Development, where I’m learning both theory and practical skills through coursework and small projects.</p>
+            </div>
+
+            <!-- Your Why -->
+            <div class="about-section">
+                <h3>Why I Code</h3>
+                <p>I’m driven by problem-solving and the creative aspect of turning ideas into working software. I enjoy breaking complex problems into smaller pieces and using code to automate, visualise, or simplify tasks. What excites me most about technology is its ability to make everyday tasks easier and to scale solutions to reach many people.</p>
+            </div>
+
+            <!-- Education & Journey -->
+            <div class="about-section">
+                <h3>Education & Journey</h3>
+                <ul class="about-list">
+                    <li><strong>Degree:</strong> BSc Computer Science (2nd Year) — NUST</li>
+                    <li><strong>Why Software Dev:</strong> I chose software development because it combines logical thinking with creative building; it lets me make tools that help people and businesses.</li>
+                </ul>
+            </div>
+
+            <div class="about-section">
+                <h3>Next Steps</h3>
+                <p>Right now I’m focused on strengthening my web development skills (React + backend basics) and contributing to small team projects to gain real-world experience.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- COPYRIGHT FOOTER (only) -->
+    <footer style="text-align:center; padding:14px 10px; font-size:0.95rem; color:rgba(255,255,255,0.85);">
+        © 2025 James Ruben. All rights reserved.
+    </footer>
+
+    
+</body>
+</html>
+

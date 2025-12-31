@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>James Ruben - Social Media</title>
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+        }
+
+        /* Top navigation bar (navy, smaller than before) */
+        .profile-top {
+            height: 56px; /* smaller than previous 10vh/min-height */
+            background-color: #0a2a5b; /* navy blue navigation bar */
+            position: relative;
+            min-height: 56px;
+        }
+
+        /* White bottom section */
+        .profile-bottom {
+            min-height: calc(100vh - 84px); /* account for 56px + 28px navy header */
+            background-color: white;
+            padding: 24px 40px; /* less top padding so content moves up */
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Social media container - left column content */
+        .social-media {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+            max-width: 540px;
+            margin-left: 0; /* sits inside the left column now */
+            margin-top: 0;
+        }
+
+        /* Social media item */
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .social-link {
+            color: #001f3f;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            color: #003366;
+            text-decoration: underline;
+        }
+
+        /* Navigation */
+        .top-links {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        /* Profile in top-left */
+        .profile-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-pic {
+            width: 48px; /* slightly smaller to fit reduced nav height */
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-name {
+            font-weight: bold;
+            font-size: 1rem;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Social media heading */
+        .social-heading {
+            font-size: 2rem;
+            color: #001f3f;
+            margin-bottom: 18px;
+            margin-left: 0; /* reset - heading will sit inside the content column */
+        }
+
+        /* QR grid spacing */
+        .qr-grid {
+            display: flex;
+            gap: 36px; /* increased gap so QR codes don't touch */
+            flex-wrap: wrap;
+        }
+
+        .qr-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 160px;
+            margin-bottom: 12px;
+        }
+
+        .qr-item img { max-width: 150px; height: auto; }
+
+        .social-link { word-break: break-word; max-width: 160px; text-align: center; }
+
+        /* Extra narrow strip that continues the navy header (half the height of .profile-top) */
+        .nav-extend {
+            height: 28px; /* half of 56px */
+            background-color: #0a2a5b;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top navy blue section -->
+    <div class="profile-top">
+        <!-- Profile in top-left -->
+        <div class="profile-container">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ4AAACUCAMAAABVwGAvAAAAZlBMVEX///8AAAD5+fnNzc0JCQnd3d1XV1fm5ub29vZdXV38/PyQkJDU1NTw8PBhYWHt7e1AQECamprDw8MZGRmsrKygoKB1dXVFRUWDg4MQEBBLS0t7e3u7u7tubm4tLS1nZ2c3NzcmJiZirPiXAAAEzUlEQVR4nO2ba5OyIBTHJfKSWpnaTc30+3/JBRWrFQw5+DzMLP8Xu02zQ7+Fw7mas3EM1saxeOqyeBBZPIgsHkQWDyKLB5HFg8jiQWTxILJ4EFk8iCweRBYPIosHkcWD6E/ibeLK17OQfjz33NyjvZ61tONtbi0qYm2racbDCUJFoG05zXgYEWnbO914bkPoIo0LasULD4Quw/oW1IuX0qNN9LiUXlrxEorn6VtPL16cUbydtvUcvXgnZPLuhaXReEfPaDy/RsbYXpBiou4H/U2V3zu8K3k5vI2P/wvP93ZEh2tHhHKq/magJj9fvJ6UqMSgAAw83C7GonvYEaPxcMO4KhjgExJFtOBtux1y0fvVCLHHAG/qH7EaHlG0HfgeysnpmnhOxfbvEpqI5+SM72QknnMZ8FrXSLx9xhyM2vGujDdu310tC1wbL2bWVxmJt2+YczESb/MY8Boj8ZxowNuaiXcyG4/tXmYk3pDhk/rSSLw9S6xuRuL5zO+lRuKdmemZGTXaAU+xL7QyHsuoMiMzFrce8M6K66+KF7Jre1Bdf02844HRmVhr4GSgexhYqfnlkChnlWodtA7e0Xdx3he5tVeqpaHr4WVF0qWgDxxjF9pkWQFvNzReasiproa3c/YsiXqCm3OL8MJJXBdcDZaD7qBd+iV4uCgk8RxWYXjA+dUCvDO6TjZDhOcP9ofKf4S3eaJkeg+Ffg8PeMrRdhne5sYd5Ynd8nPAU81VluERupzz9kzUYN0VtSJjGV5FbiHvD2diLvMu3H9LL56fCKa0M3g+y/UgM0A5vEg0TZnLWMbtUyvS5PH2rajDNId3ZHhI/bkHKTxSMRT8E5pNR1kFji7r4nlC9zqLlzK8VvnpAhm8IBN611m84DXZWBMP34VF/nwpNF4OpJr3yeDRYlXg++fxxg6G8vbJ4JH0aCvwXV/q3HGwVitunwweOaOtYPkveONYSDV0yODdFu3e+7g5YJWuauIniSd68IiD99GCf23feg20SHw4HLzP8dnoW9brjtKbK2iAcfA+t8nNQNsn6/eefNt5xxsGQL8CLOs/Im8aeb8XmjJ4YStMet/xejtrfv8Jq4qmQ9P99zGqVMx9Co3vHa+PERMr8NlMfBI6Tt8bHFJ49Nj4c4l3vK4hdZ9e8dH8ms/jTSWeeJHC62I717Tf8MLu5YFjo2Pm8tE1iGuJPEYuW05FjrXHa+kavelxz2uc2Scxuw1BJRVIJEshat+8nKrH29EPvcx4t5EPlakfOkGce3KPF0jiHTku44VHweOWvhI9UoNbxrdtiuJayz78IFvnptT3CfBq6nRKru8YtX/lflSF5KNB0k2MM9e5YOZLutQumVsLX0a4upLNr+RbQBHP/Cge9Q8B9SrXb0ul0eX5uOULcj95vJA27c6/4hDBK+mNpkmNoJgDaUl/ryL+3/tkiMvOeVHDO8BbtVMt6o7G1D1Hk+jrkqCX5WvQLewtBycSoOrLx7XzI/JeCWqTibW09R2cuvz8mac4jmNcna7E6G4rWF2v5Z154vIf25cHa6IU/ISoWIqDg9CPq6pKY01fahHqT36VSZssHkQWDyKLB5HFg8jiQWTxILJ4EFk8iCweRBYPIosHkcWDyOJBZPEgsngQbX4AhLgtiWDtGvoAAAAASUVORK5CYII=" alt="James Ruben" class="profile-pic">
+            <div class="profile-name">James Ruben</div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="top-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            
+            
+        </div>
+    </div>
+    
+    <!-- Extra half-height navy strip to extend the top bar visually -->
+    <div class="nav-extend" aria-hidden="true"></div>
+
+
+    
+
+        <!-- Main content: left = QR & downloads, right = collaboration card -->
+        <div class="main-content" style="margin-top:30px; margin-left:8%; margin-right:8%; max-width:1100px; display:flex; gap:36px; align-items:center;">
+            <div class="left-column" style="flex:1; max-width:640px;">
+                <h3 style="color: #001f3f; margin-bottom: 12px;">Profile QR Codes</h3>
+                <p style="margin-bottom: 12px;">Scan to follow or open the links on mobile.</p>
+
+                <div class="qr-grid">
+                    <!-- TikTok QR -->
+                    <div class="qr-item">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.tiktok.com/@james._xx.19" alt="TikTok QR">
+                        <a class="social-link" href="https://www.tiktok.com/@james._xx.19?_t=ZM-8ylt4PXHbiK&_r=1" target="_blank" style="margin-top:8px; color:#001f3f;">tiktok.com/@james._xx.19</a>
+                    </div>
+
+                    <!-- GitHub QR -->
+                    <div class="qr-item">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/JamesRuben10" alt="GitHub QR">
+                        <a class="social-link" href="https://github.com/JamesRuben10" target="_blank" style="margin-top:8px; color:#001f3f;">github.com/JamesRuben10</a>
+                    </div>
+                </div>
+
+                <!-- White bottom section with left-centered social media links -->
+    
+
+                <!-- Downloadable Resume -->
+                <div style="margin-top: 26px; display:flex; gap:14px; align-items:center;">
+                    <a href="James_Ruben_CV.pdf" download style="background:#003366; color:white; padding:10px 14px; border-radius:8px; text-decoration:none;">📄 Download Resume (PDF)</a>
+                </div>
+
+                <!-- TikTok -->
+                <div class="social-item" style="margin-top: 24px;">
+                    <img src="data:image/png;base64,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" alt="TikTok" class="social-icon">
+                    <a href="https://www.tiktok.com/@james._xx.19?_t=ZM-8ylt4PXHbiK&_r=1" class="social-link" target="_blank">tiktok.com/@james._xx.19</a>
+                </div>
+
+                <!-- GitHub -->
+                <div class="social-item">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="social-icon">
+                    <a href="https://github.com/JamesRuben10" class="social-link" target="_blank">github.com/JamesRuben10</a>
+                </div>
+            </div>
+
+            <aside class="right-column" style="width:360px; display:flex; align-items:flex-start; justify-content:center;">
+                <div class="collab-card" style="width:100%; background:rgba(255,255,255,0.10); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); padding:20px; border-radius:12px; border:1px solid rgba(255,255,255,0.12); box-shadow:0 8px 30px rgba(10,42,91,0.08); margin-top:-14px;">
+                    <h3 style="color:#001f3f; margin-top:0;">Collaboration</h3>
+                    <p>I am open to the following types of collaboration:</p>
+                    <ul style="color:#001f3f;">
+                        <li>Internships & mentorship partnerships</li>
+                        <li>Front-end / full-stack project contributions</li>
+                        <li>Short freelance assignments (small web apps, landing pages)</li>
+                        <li>Open-source contributions and learning projects</li>
+                    </ul>
+                    <p>If you have an opportunity that fits, please reach out via the contact details on the homepage.</p>
+                </div>
+            </aside>
+        </div>
+    </div>
+    
+    <!-- COPYRIGHT FOOTER (only) -->
+    <footer style="text-align:center; padding:14px 10px; font-size:0.95rem; color:rgba(0,0,0,0.8);">
+        © 2025 James Ruben. All rights reserved.
+    </footer>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My First Website</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(180deg,#071428 0%, #0b2336 100%); /* subtle solid background behind header */
+            color: white;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Profile container styling */
+        .profile-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-pic {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-name {
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Top-right navigation container */
+        .top-links {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Link styling */
+        a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        a:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(5px);
+        }
+
+        /* Main content wrapper */
+        .content-wrapper {
+            padding: 140px 40px 40px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative; /* for overlay */
+            background: url('https://www.shutterstock.com/image-photo/analyst-manages-system-database-analysis-600nw-2437018947.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Dark overlay for the background image inside content area */
+        .content-wrapper::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Make direct children of content-wrapper render above the overlay */
+        .content-wrapper > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Hero/Welcome section */
+        .hero-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-section p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        /* Grid layout for sections */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        /* Glass card styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.5);
+        }
+
+        .glass-card h2 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .glass-card h3 {
+            font-size: 1.1rem;
+            margin-top: 15px;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+
+        .glass-card p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        /* Skills list styling */
+        .skills-list {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .skills-list li {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Timeline styling */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+        }
+
+        .timeline-item strong {
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* Highlights section */
+        .highlights {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        .highlights li {
+            list-style: none;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .highlights li:last-child {
+            border-bottom: none;
+        }
+
+        .highlights li::before {
+            content: '✓ ';
+            color: #90EE90;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            background: rgba(76, 175, 80, 0.7);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .cta-button:hover {
+            background: rgba(76, 175, 80, 0.9);
+            transform: scale(1.05);
+        }
+
+        /* Full width sections */
+        .full-width-section {
+            grid-column: 1 / -1;
+        }
+
+        /* Featured projects */
+        .project-card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .project-card h4 {
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .project-card p {
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Interest tags */
+        .interest-tag {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Fixed header border line */
+        .header-border {
+            position: fixed;
+            top: 100px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            z-index: 999;
+            pointer-events: none;
+        }
+
+        /* Header container and layout variables */
+        :root { --header-height: 120px; }
+
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 36px;
+            z-index: 1000;
+            pointer-events: auto;
+            background: linear-gradient(90deg, #001f3f 0%, #0b3b61 100%); /* navy-blue header */
+            box-shadow: 0 4px 18px rgba(2, 6, 23, 0.45);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        /* Override the previous fixed positioning so elements live inside the header */
+        .profile-container, .top-links {
+            position: static !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            background: transparent !important;
+            padding: 0 !important;
+            border-radius: 0 !important;
+            backdrop-filter: none !important;
+            border: none !important;
+        }
+
+        /* Place the header-border immediately below the header using the CSS variable */
+        .header-border { top: calc(var(--header-height)); }
+
+        /* Ensure content starts below the header */
+        .content-wrapper { padding-top: calc(var(--header-height) + 20px); }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <!-- Profile container with picture and name -->
+        <div class="profile-container">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJ4AAACUCAMAAABVwGAvAAAAZlBMVEX///8AAAD5+fnNzc0JCQnd3d1XV1fm5ub29vZdXV38/PyQkJDU1NTw8PBhYWHt7e1AQECamprDw8MZGRmsrKygoKB1dXVFRUWDg4MQEBBLS0t7e3u7u7tubm4tLS1nZ2c3NzcmJiZirPiXAAAEzUlEQVR4nO2ba5OyIBTHJfKSWpnaTc30+3/JBRWrFQw5+DzMLP8Xu02zQ7+Fw7mas3EM1saxeOqyeBBZPIgsHkQWDyKLB5HFg8jiQWTxILJ4EFk8iCweRBYPIosHkcWD6E/ibeLK17OQfjz33NyjvZ61tONtbi0qYm2racbDCUJFoG05zXgYEWnbO914bkPoIo0LasULD4Quw/oW1IuX0qNN9LiUXlrxEorn6VtPL16cUbydtvUcvXgnZPLuhaXReEfPaDy/RsbYXpBiou4H/U2V3zu8K3k5vI2P/wvP93ZEh2tHhHKq/magJj9fvJ6UqMSgAAw83C7GonvYEaPxcMO4KhjgExJFtOBtux1y0fvVCLHHAG/qH7EaHlG0HfgeysnpmnhOxfbvEpqI5+SM72QknnMZ8FrXSLx9xhyM2vGujDdu310tC1wbL2bWVxmJt2+YczESb/MY8Boj8ZxowNuaiXcyG4/tXmYk3pDhk/rSSLw9S6xuRuL5zO+lRuKdmemZGTXaAU+xL7QyHsuoMiMzFrce8M6K66+KF7Jre1Bdf02844HRmVhr4GSgexhYqfnlkChnlWodtA7e0Xdx3he5tVeqpaHr4WVF0qWgDxxjF9pkWQFvNzReasiproa3c/YsiXqCm3OL8MJJXBdcDZaD7qBd+iV4uCgk8RxWYXjA+dUCvDO6TjZDhOcP9ofKf4S3eaJkeg+Ffg8PeMrRdhne5sYd5Ynd8nPAU81VluERupzz9kzUYN0VtSJjGV5FbiHvD2diLvMu3H9LL56fCKa0M3g+y/UgM0A5vEg0TZnLWMbtUyvS5PH2rajDNId3ZHhI/bkHKTxSMRT8E5pNR1kFji7r4nlC9zqLlzK8VvnpAhm8IBN611m84DXZWBMP34VF/nwpNF4OpJr3yeDRYlXg++fxxg6G8vbJ4JH0aCvwXV/q3HGwVitunwweOaOtYPkveONYSDV0yODdFu3e+7g5YJWuauIniSd68IiD99GCf23feg20SHw4HLzP8dnoW9brjtKbK2iAcfA+t8nNQNsn6/eefNt5xxsGQL8CLOs/Im8aeb8XmjJ4YStMet/xejtrfv8Jq4qmQ9P99zGqVMx9Co3vHa+PERMr8NlMfBI6Tt8bHFJ49Nj4c4l3vK4hdZ9e8dH8ms/jTSWeeJHC62I717Tf8MLu5YFjo2Pm8tE1iGuJPEYuW05FjrXHa+kavelxz2uc2Scxuw1BJRVIJEshat+8nKrH29EPvcx4t5EPlakfOkGce3KPF0jiHTku44VHweOWvhI9UoNbxrdtiuJayz78IFvnptT3CfBq6nRKru8YtX/lflSF5KNB0k2MM9e5YOZLutQumVsLX0a4upLNr+RbQBHP/Cge9Q8B9SrXb0ul0eX5uOULcj95vJA27c6/4hDBK+mNpkmNoJgDaUl/ryL+3/tkiMvOeVHDO8BbtVMt6o7G1D1Hk+jrkqCX5WvQLewtBycSoOrLx7XzI/JeCWqTibW09R2cuvz8mac4jmNcna7E6G4rWF2v5Z154vIf25cHa6IU/ISoWIqDg9CPq6pKY01fahHqT36VSZssHkQWDyKLB5HFg8jiQWTxILJ4EFk8iCweRBYPIosHkcWDyOJBZPEgsngQbX4AhLgtiWDtGvoAAAAASUVORK5CYII=" alt="James Ruben" class="profile-pic">
+        <div class="profile-name">James Ruben</div>
+    </div>
+
+    <!-- Top-right navigation links -->
+    <div class="top-links">
+        <a href="about.html">About</a>
+        <a href="SocialMedia.html">Social Media Platforms</a>
+        
+    </div>
+    </header>
+
+    <div class="header-border"></div>
+
+    <!-- Main content wrapper -->
+    <div class="content-wrapper">
+        
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1>Welcome to My First Website</h1>
+            <p>Hi, I'm James Ruben, an incoming software developer with a passion for turning ideas into code. This is
+                my very first website, and I'm beyond excited to share my journey into the world of computer science.</p>
+            <p>From solving logic puzzles to building real applications, I see programming as both an art and a science —
+                and this site is just the beginning of what I plan to create.</p>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="sections-grid">
+
+            <!-- 1. Skills & Technologies Box -->
+            <div class="glass-card">
+                <h2>💻 Skills & Technologies</h2>
+                
+                <h3>Programming Languages</h3>
+                <ul class="skills-list">
+                    <li>Python</li>
+                    <li>JavaScript</li>
+                    <li>HTML/CSS</li>
+                    <li>Java</li>
+                </ul>
+
+                <h3>Tools & Platforms</h3>
+                <ul class="skills-list">
+                    <li>Git & GitHub</li>
+                    <li>VS Code</li>
+                    <li>Visual Studio</li>
+                    <li>Figma</li>
+                </ul>
+
+                <h3>Web Development</h3>
+                <ul class="skills-list">
+                    <li>Responsive Design</li>
+                    <li>Frontend Development</li>
+                    <li>Web Basics</li>
+                    <li>APIs</li>
+                </ul>
+            </div>
+
+            <!-- 2. Quick Highlights Panel -->
+            <div class="glass-card">
+                <h2>🎓 Quick Highlights</h2>
+                
+                <div class="highlights">
+                    <li><strong>Education:</strong> 2nd Year Computer Science @ NUST</li>
+                    <li><strong>Specialization:</strong> Software Development Focus</li>
+                    <li><strong>Current Goal:</strong> Building my portfolio and gaining real-world experience</li>
+                </div>
+
+                <h3>Key Achievement</h3>
+                <p>Completed multiple programming projects and this portfolio website showcases my journey as a developer just starting out.</p>
+
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #e0e0e0;">Passionate about creating elegant solutions to complex problems.</p>
+            </div>
+
+            <!-- 3. Featured Project Showcase -->
+            <div class="glass-card">
+                <h2>🚀 Featured Projects</h2>
+
+                <div class="project-card">
+                    <h4>📱 My Portfolio Website</h4>
+                    <p>My very first project! This website showcases my journey into web development and serves as a living resume.</p>
+                    <small style="color: #b0b0b0;">Current Project</small>
+                </div>
+
+                <div class="project-card">
+                    <h4>🔜 Full-Stack Application</h4>
+                    <p>Building a complete web application with frontend, backend, and database integration.</p>
+                    <small style="color: #b0b0b0;">Coming Soon</small>
+                </div>
+
+                <p style="margin-top: 15px; font-size: 0.9rem;">Focused on learning and building projects that solve real problems.</p>
+            </div>
+
+            <!-- 4. What I'm Learning Now -->
+            <div class="glass-card">
+                <h2>📚 What I'm Learning Now</h2>
+
+                <h3>Current Skills Development</h3>
+                <ul class="skills-list">
+                    <li>Advanced JavaScript</li>
+                    <li>React</li>
+                    <li>Backend Development</li>
+                    <li>Databases</li>
+                </ul>
+
+                <h3>Exploring Technologies</h3>
+                <ul class="skills-list">
+                    <li>Web Frameworks</li>
+                    <li>Cloud Services</li>
+                    <li>Mobile Dev</li>
+                    <li>DevOps Basics</li>
+                </ul>
+
+                <p style="margin-top: 15px; font-size: 0.9rem;">Committed to continuous learning and staying updated with industry trends.</p>
+            </div>
+
+            <!-- 5. Interactive Timeline -->
+            <div class="glass-card">
+                <h2>📅 My Developer Journey</h2>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <strong>Starting Point</strong>
+                        <p>Discovered passion for coding and computer science</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <strong>Now - 2nd Year CS Student</strong>
+                        <p>Building foundational skills and creating projects</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <strong>Next - Full-Stack Developer</strong>
+                        <p>Aiming to build complete applications and contribute to real-world projects</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <strong>Future Goal</strong>
+                        <p>Become a skilled software engineer solving impactful problems</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Quick Contact Call-to-Action -->
+            <div class="glass-card">
+                <h2>💬 Let's Connect</h2>
+
+                <p>I'm always excited to collaborate, discuss ideas, or learn from fellow developers. Whether you have a project in mind or just want to chat about code, feel free to reach out!</p>
+
+                <div style="margin: 25px 0; display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3rem;">📧</span>
+                        <span style="font-size: 0.95rem;">rubenjames056@gmail.com</span>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 1.3rem;">📞</span>
+                        <span style="font-size: 0.95rem;">+264 81 6662 735</span>
+                    </div>
+
+                    <a href="SocialMedia.html" class="cta-button" style="display: inline-flex; align-items: center; gap: 8px; width: fit-content;">
+                        <span style="font-size: 1.2rem;">🌐</span>
+                        Social Media Platforms
+                    </a>
+                </div>
+
+                <p style="margin-top: 15px; font-size: 0.85rem; color: #b0b0b0;">Let's build something amazing together!</p>
+            </div>
+
+            <!-- 7. Personal Interests Snapshot -->
+            <div class="glass-card">
+                <h2>⚡ Beyond Coding</h2>
+
+                <h3>My Interests</h3>
+                <div style="margin: 15px 0;">
+                    <span class="interest-tag">♟️ Chess</span>
+                    <span class="interest-tag">🥋 Karate</span>
+                    <span class="interest-tag">💡 Problem Solving</span>
+                    <span class="interest-tag">🎯 Strategy Games</span>
+                </div>
+
+                <h3>How They Connect</h3>
+                <p>Chess and karate teach me discipline, strategic thinking, and persistence — the same principles that apply to coding and building software.</p>
+
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #e0e0e0;">These hobbies keep me sharp and focused on long-term goals.</p>
+            </div>
+
+        </div> <!-- End sections-grid -->
+
+    </div> <!-- End content-wrapper -->
+    <!-- COPYRIGHT FOOTER (only) -->
+    <footer style="text-align:center; padding:14px 10px; font-size:0.95rem; color:rgba(255,255,255,0.9);">
+        © 2025 James Ruben. All rights reserved.
+    </footer>
+    
+
+</body>
+</html>
